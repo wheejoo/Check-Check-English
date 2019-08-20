@@ -1,0 +1,138 @@
+package com.example.wjddu.gridview;
+
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.VideoView;
+
+
+public class MainActivity extends AppCompatActivity {
+GridView gv;
+View video;   //View.inflate를 통해 자바로 읽어온다.
+
+String[] vid={"R.raw.mada","R.raw.pmpt"};
+int index = vid.length;
+
+Bitmap[] postId = new Bitmap[index];
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //저번시간꺼 순서  1. 리스트뷰를 생성   2.데이터 생성    3. 어댑터 생성   4.리스트뷰가 어댑터 선택
+
+        gv = findViewById(R.id.gv);        //1.그리드뷰로 바뀜
+
+        //2. 데이터생성
+
+        for(int i = 0;i < index;i++){
+//            Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(vid[i], MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+//            postId[i] = bitmap;
+            try {
+                // 썸네일 추출후 리사이즈해서 다시 비트맵 생성
+                Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(vid[i], MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                postId[i] = ThumbnailUtils.extractThumbnail(bitmap, 360, 480);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //3. 그리드뷰용 어댑터 생성하기
+        MyGridAdapter adapter = new MyGridAdapter(this);
+
+        //4. 그리드뷰가 어댑터선택
+        gv.setAdapter(adapter);
+        setTitle("Check Check English");
+    }
+    //3번 클래스 생성 BaseAdapter를 상속받아 우리한테 맞게 변경함
+    //내부클래스 -----> 외부클래스 안의 데이터나 메소드를 사용가능
+    public class MyGridAdapter extends BaseAdapter{
+        //멤버변수
+        Context context;    //상황정보 --> MainActivity.this가 상황정보임
+
+        //2. 데이터를 놓아주세요
+
+        String[] postname={"마다가스카의 펭귄","PM님의 발표 영상!"};
+
+        String[] des = {"마다가스카~","PM님의 발표 영상~"};
+        MyGridAdapter(){};
+        MyGridAdapter(Context c){
+            context = c;
+        };
+
+        @Override
+        public int getCount() {
+            return index;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        //얘가 제일 중요!!!!!!!!!!!!!!!!!!!!!!!!!
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView iView = new ImageView((context));
+//            ImageView iView = new ImageView(context);
+            //iView.setLayoutParams(new GridView.LayoutParams(300,200));
+            iView.setPadding(5,5,5,5);
+            iView.setImageBitmap(postId[position]);
+
+
+            final int pos = position;
+            iView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    //1. layout 안에 dialog 파일을 자바로 가져오기
+                   video = View.inflate(MainActivity.this, R.layout.video, null);
+
+//
+//                    //2. 가져온 파일을 대화상자로 만들기
+//                    AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
+//
+//                    //3. 가져온 파일안의 위젯을 찾아오기
+                    VideoView vi = video.findViewById(R.id.video);
+                    TextView text = video.findViewById(R.id.text);
+                    //vi.setVideoPath(vid[pos]);
+                    Uri vUri = Uri.parse("android.resource://" + getPackageName()+ "/"+vid[pos]);
+                    vi.setVideoURI(vUri);
+                    text.setText(des[pos]);
+
+//                    dlg.setView(video);
+//
+//                    //4. 이벤트 내용 구현하기
+//                    dlg.setTitle(postname[pos]);
+//                    dlg.setIcon(R.drawable.movie_icon);
+//                    dlg.setNegativeButton("닫기", null);
+//
+//                    dlg.show();
+
+                    Intent intent = new Intent(getApplicationContext(),VideoActivity.class);
+                    startActivity(intent); // 다음 화면으로 넘어간다
+                }
+            });
+
+            return iView;
+        }
+    }
+}
