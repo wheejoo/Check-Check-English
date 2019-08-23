@@ -11,6 +11,7 @@ import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -30,7 +31,7 @@ public class love extends AppCompatActivity {
     GridView gv;
     //View video;
     String[] uId ={"https://www.youtube.com/watch?v=F1PxuuUvHM4",
-            "https://www.youtube.com/watch?v=DOXQGgAlA80",
+            "https://www.youtube.com/watch?v=9wkcc0dKI4I",
             "https://www.youtube.com/watch?v=4TuiTjmeZRw"};
     URL[] url = new URL[uId.length];
     Bitmap[] bitmap = new Bitmap[uId.length];
@@ -81,7 +82,23 @@ public class love extends AppCompatActivity {
 
         gv.setAdapter(adater);
         setTitle("Love Love Love");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return (super.onOptionsItemSelected(item));
+    }
+
+
+
     public class MyGridAdapter extends BaseAdapter{
         Context context;
 

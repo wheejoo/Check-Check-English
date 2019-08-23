@@ -3,6 +3,7 @@ package com.example.wjddu.layout1;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,9 +15,13 @@ import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,10 +38,12 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import java.util.ArrayList;
 import java.util.Locale;
 
+
+
 public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     TextToSpeech tts;
-    Button input;
+    Button input, sambtn;
     public static Context c;
     TextView txt;
 
@@ -55,6 +62,9 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
 
         input = findViewById(R.id.input);
         txt = findViewById(R.id.txt);
+        sambtn = findViewById(R.id.sambtn);
+
+
 
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -84,7 +94,98 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
 
         youtubeView.initialize("AIzaSyCyxRKghwzdwtpTgX0DKBCK_JLKE3_eG78", this);
 
+
+        sambtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (url){
+                    case "2jxR4eydqKI":
+                    case "APD3FQLiME0":
+                    case "COlB70FGG04":
+                    case "pBI2JVH8vbw" :
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(vlearn.this);
+                        dialog.setTitle("Example - First greeting")
+                                .setMessage("-  Oh My god!! I'm so happy to see you. \n" +
+                                        "-  I feel like I'm gonna get along with you.")
+                                .setNegativeButton("종료", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
+                        break;
+
+
+                    case "BgKh0WlLtS0":
+                    case "wvtA-8yDxrU":
+                    case "kRQcE30Jmew":
+                        AlertDialog.Builder dialog2 = new AlertDialog.Builder(vlearn.this);
+                        dialog2.setTitle("Example - Funny")
+                                .setMessage("-  Are you kidding me? \n" +
+                                        "-  Is what I heard true?")
+                                .setNegativeButton("종료", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
+                        break;
+
+
+                    case "72v7c8mxBQQ":
+                    case "yIADPHu2QJE":
+                    case "TpLXayxZ98g":
+                        AlertDialog.Builder dialog3 = new AlertDialog.Builder(vlearn.this);
+                        dialog3.setTitle("Example - Apologizing")
+                                .setMessage("-  I'll forgive you. \n" +
+                                        "-  If you're sorry to me, dance for me.")
+                                .setNegativeButton("종료", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
+                        break;
+
+
+                    case "1vddtic0mpI":
+                    case "rVJXGScKzPI":
+                    case "lAN_3PvHEjA":
+                        AlertDialog.Builder dialog4 = new AlertDialog.Builder(vlearn.this);
+                        dialog4.setTitle("Example - Fight")
+                                .setMessage("-  Take it easy \n" +
+                                        "-  Relax. I don't want to fight you")
+                                .setNegativeButton("종료", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
+                        break;
+
+
+                    case "F1PxuuUvHM4":
+                    case "9wkcc0dKI4I":
+                    case "4TuiTjmeZRw":
+                        AlertDialog.Builder dialog5 = new AlertDialog.Builder(vlearn.this);
+                        dialog5.setTitle("Example - Love Love Love")
+                                .setMessage("-  I'm glad to hear that from you \n" +
+                                        "-  You talk so pretty")
+                                .setNegativeButton("종료", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
+                        break;
+
+
+                }
+            }
+        });
+
     }
+
 
 
 

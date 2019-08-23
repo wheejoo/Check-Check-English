@@ -20,13 +20,28 @@
         android:text="Say after finishing video clip."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/input"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/microphone"
-        android:layout_gravity="center"
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/input"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/microphone"
+            android:layout_centerInParent="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+        <Button
+            android:id="@+id/sambtn"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/see"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </RelativeLayout>
+
     <ScrollView
         android:layout_margin="10dp"
         android:id="@+id/scrolll"

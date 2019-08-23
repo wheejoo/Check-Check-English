@@ -11,6 +11,7 @@ import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -31,9 +32,9 @@ import java.net.URL;
 public class fight extends AppCompatActivity {
     GridView gv;
     //View video;
-    String[] uId ={"https://www.youtube.com/watch?v=bcdp0_59U50",
-            "https://www.youtube.com/watch?v=gUT_G4Da1lA",
-            "https://www.youtube.com/watch?v=4oN8SIdLLs0"};
+    String[] uId ={"https://www.youtube.com/watch?v=1vddtic0mpI",
+            "https://www.youtube.com/watch?v=rVJXGScKzPI",
+            "https://www.youtube.com/watch?v=lAN_3PvHEjA"};
     URL[] url = new URL[uId.length];
     Bitmap[] bitmap = new Bitmap[uId.length];
 
@@ -83,7 +84,22 @@ public class fight extends AppCompatActivity {
 
         gv.setAdapter(adater);
         setTitle("Fight");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return (super.onOptionsItemSelected(item));
+    }
+
+
+
     public class MyGridAdapter extends BaseAdapter{
         Context context;
 
