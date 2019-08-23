@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         ct2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2 = new Intent(getApplicationContext(), vlearn.class);
+                Intent intent2 = new Intent(getApplicationContext(), fun.class);
                 startActivity(intent2);
             }
         });

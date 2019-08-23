@@ -25,15 +25,24 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class vlearn extends AppCompatActivity {
+public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     TextToSpeech tts;
     Button input;
     public static Context c;
     TextView txt;
+
+
+    YouTubePlayer.OnInitializedListener listener;
+    String url;
 
 
 
@@ -46,9 +55,6 @@ public class vlearn extends AppCompatActivity {
 
         input = findViewById(R.id.input);
         txt = findViewById(R.id.txt);
-
-
-
 
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -69,7 +75,29 @@ public class vlearn extends AppCompatActivity {
         });
 
 
+
+        Intent intent = getIntent();
+        String uId = intent.getStringExtra("value");
+        url = uId.substring(uId.lastIndexOf("?")+3);
+
+        YouTubePlayerView youtubeView = (YouTubePlayerView)findViewById(R.id.youtubeView);
+
+        youtubeView.initialize("AIzaSyCyxRKghwzdwtpTgX0DKBCK_JLKE3_eG78", this);
+
     }
+
+
+
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        youTubePlayer.cueVideo(url);
+    }
+
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        // 초기화를 실패한 경우에 처리한다
+    }
+
+
+
 
 
     public void inputVoice(final TextView txt) {
@@ -162,6 +190,7 @@ public class vlearn extends AppCompatActivity {
     private void toast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
+
 
 
 
