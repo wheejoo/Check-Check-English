@@ -1,4 +1,4 @@
-package com.cranberrygame.test0821;
+﻿package com.cranberrygame.test0821;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvData;
     Intent i;
     SpeechRecognizer mRecognizer;
+    String a = "hello";
 
 
     @Override
@@ -140,13 +141,13 @@ public class MainActivity extends AppCompatActivity {
             String[] rs = new String[mResult.size()];
             mResult.toArray(rs);
             Toast.makeText(getApplicationContext(), rs[0], Toast.LENGTH_SHORT).show();
-            mRecognizer.startListening(i); //음성인식이 계속 되는 구문이니 필요에 맞게 쓰시길 바람
-        }
+           a=rs[0];
+  }
     };
 
     public class JSONTask extends AsyncTask<String, String, String>{
 
-        String a = "I am happy";
+     
 
 
         @Override
