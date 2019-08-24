@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvData;
     Intent i;
     SpeechRecognizer mRecognizer;
+
     String a = "hello";
 
 
@@ -59,12 +60,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         tvData = (TextView)findViewById(R.id.textView);
         Button btn = (Button)findViewById(R.id.httpTest);
+        Button btn1 = (Button)findViewById(R.id.send);
 
         i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
 
         mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mRecognizer.setRecognitionListener(listener);
@@ -74,10 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                new JSONTask().execute("https://chatbotmagic.glitch.me/chatbot");//AsyncTask 시작시킴
-
-                System.out.println("-------------------------------------- 음성인식 시작!");
-
                 //권한을 허용한 경우
                 try {
                     mRecognizer.startListening(i);
@@ -88,12 +87,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //버튼이 클릭되면 연결
+        btn1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                new JSONTask().execute("https://chatbotmagic.glitch.me/chatbot");//AsyncTask 시작시킴
+            }
+        });
+
+
     }
 
     /*
      * 음성인식을 위한 메소드
      */
-    private RecognitionListener listener = new RecognitionListener() {
+    public RecognitionListener listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle params) {
             System.out.println("onReadyForSpeech.........................");
@@ -141,13 +151,16 @@ public class MainActivity extends AppCompatActivity {
             String[] rs = new String[mResult.size()];
             mResult.toArray(rs);
             Toast.makeText(getApplicationContext(), rs[0], Toast.LENGTH_SHORT).show();
-           a=rs[0];
-  }
+            a = rs[0];
+
+        }
+
+
     };
 
     public class JSONTask extends AsyncTask<String, String, String>{
 
-     
+
 
 
         @Override
@@ -171,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     con.setRequestProperty("Cache-Control", "no-cache");//캐시 설정
                     con.setRequestProperty("Content-Type", "application/json");//application JSON 형식으로 전송
 
-                    con.setRequestProperty("Accept", "text/html");//서버에 response 데이터를 html로 받음
+                    con.setRequestProperty("Accept", "text/html");//서버에 resp데onse 이터를 html로 받음
                     con.setDoOutput(true);//Outstream으로 post 데이터를 넘겨주겠다는 의미
                     con.setDoInput(true);//Inputstream으로 서버로부터 응답을 받겠다는 의미
                     con.connect();
@@ -225,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             tvData.setText(result);//서버로 부터 받은 값을 출력해주는 부
+
         }
     }
 }

@@ -10,9 +10,8 @@
         android:id="@+id/tvMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.97"/>
-
-
+        android:layout_weight="0.97"
+        tools:ignore="MissingConstraints" />
 
 
     <LinearLayout
@@ -22,11 +21,18 @@
         <Button
             android:id="@+id/httpTest"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text='Test'/>
+
+        <Button
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='send'/>
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:text="ex"
             app:layout_constraintBottom_toBottomOf="parent"
