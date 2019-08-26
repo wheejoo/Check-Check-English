@@ -402,7 +402,7 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             txt.append("[병아리]" + result + "\n");//서버로 부터 받은 값을 출력해주는 부
-            tts.speak(txt.getText().toString(),TextToSpeech.QUEUE_FLUSH, null);
+            tts.speak(result,TextToSpeech.QUEUE_FLUSH, null);
 
         }
     }
