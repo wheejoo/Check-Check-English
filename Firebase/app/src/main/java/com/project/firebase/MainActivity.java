@@ -21,6 +21,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
 
+class User {
+    public String email;
+
+    public User() {
+    }
+
+    public User(String email) {
+        this.email = email;
+    }
+}
 
 public class MainActivity extends AppCompatActivity {
 
