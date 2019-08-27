@@ -16,6 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -155,7 +158,22 @@ public class LogIn extends AppCompatActivity {
                             //startActivity(intent);
                         } else {
                             // 회원가입 실패
-                            Toast.makeText(LogIn.this, getString(R.string.failed_signup), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(LogIn.this, getString(R.string.failed_signup), Toast.LENGTH_SHORT).show();
+                            try {
+                                throw task.getException();
+                            }
+                            catch (FirebaseAuthInvalidCredentialsException e) {
+                                Toast.makeText(getApplicationContext(), "Invalid Password", Toast.LENGTH_LONG).show();
+                            }
+                            catch (FirebaseAuthEmailException e){
+                                Toast.makeText(getApplicationContext(), "Invalid Email", Toast.LENGTH_LONG).show();
+                            }
+                            catch (FirebaseAuthException e){
+                                Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_LONG).show();
+                            }
+                            catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
