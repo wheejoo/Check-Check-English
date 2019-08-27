@@ -5,10 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     Button ct1, ct2, ct3, ct4, ct5;
+    ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         ct3 = findViewById(R.id.ct3);
         ct4 = findViewById(R.id.ct4);
         ct5 = findViewById(R.id.ct5);
+        img = findViewById(R.id.img);
 
         ct1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +62,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent5 = new Intent(getApplicationContext(), love.class);
                 startActivity(intent5);
+            }
+        });
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pIntent = getIntent();
+                String email = pIntent.getStringExtra("value");
+
+                Intent intent = new Intent(MainActivity.this, myPage.class);
+                intent.putExtra("email",email);
+                startActivity(intent);
             }
         });
 

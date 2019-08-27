@@ -13,6 +13,7 @@
         android:roundIcon="@drawable/abc"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".myPage"></activity>
         <activity android:name=".intro">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,8 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" >
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".fgreet" />
         <activity android:name=".fun" />
         <activity android:name=".apolo" />

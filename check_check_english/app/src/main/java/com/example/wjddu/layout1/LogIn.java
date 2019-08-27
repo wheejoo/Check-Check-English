@@ -47,8 +47,6 @@ public class LogIn extends AppCompatActivity {
     // 이메일과 비밀번호
     private EditText editTextEmail;
     private EditText editTextPassword;
-    private TextView t;
-    private TextView t2;
     private Button btn_signUp;
     private Button btn_signIn;
 
@@ -65,8 +63,6 @@ public class LogIn extends AppCompatActivity {
 
         editTextEmail = findViewById(R.id.et_eamil);
         editTextPassword = findViewById(R.id.et_password);
-        t = findViewById(R.id.t);
-        t2 = findViewById(R.id.t2);
         btn_signUp = findViewById(R.id.btn_signUp);
         btn_signIn = findViewById(R.id.btn_signIn);
 
@@ -119,11 +115,11 @@ public class LogIn extends AppCompatActivity {
     private boolean isValidEmail() {
         if (email.isEmpty()) {
             // 이메일 공백
-            t2.setText("이메일공백");
+            Toast.makeText(LogIn.this, "이메일 공백", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             // 이메일 형식 불일치
-            t2.setText("이메일형식불일치");
+            Toast.makeText(LogIn.this, "이메일 형식 불일치", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
@@ -134,11 +130,11 @@ public class LogIn extends AppCompatActivity {
     private boolean isValidPasswd() {
         if (password.isEmpty()) {
             // 비밀번호 공백
-            t2.setText("비밀번호공백");
+            Toast.makeText(LogIn.this, "비밀번호 공백", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
             // 비밀번호 형식 불일치
-            t2.setText("비밀번호형식불일치");
+            Toast.makeText(LogIn.this, "비밀번호 형식 불일치(숫자와 문자, 특수문자를 각 하나 이상씩 사용하세요)", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
@@ -154,8 +150,6 @@ public class LogIn extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // 회원가입 성공
                             Toast.makeText(LogIn.this, getString(R.string.success_signup), Toast.LENGTH_SHORT).show();
-                            //Intent intent = new Intent(LogIn.this, MainActivity.class);
-                            //startActivity(intent);
                         } else {
                             // 회원가입 실패
                             //Toast.makeText(LogIn.this, getString(R.string.failed_signup), Toast.LENGTH_SHORT).show();
@@ -163,13 +157,13 @@ public class LogIn extends AppCompatActivity {
                                 throw task.getException();
                             }
                             catch (FirebaseAuthInvalidCredentialsException e) {
-                                Toast.makeText(getApplicationContext(), "Invalid Password", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "비밀번호의 형식이 올바르지 않습니다", Toast.LENGTH_LONG).show();
                             }
                             catch (FirebaseAuthEmailException e){
-                                Toast.makeText(getApplicationContext(), "Invalid Email", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "이메일의 형식이 올바르지 않습니다.", Toast.LENGTH_LONG).show();
                             }
                             catch (FirebaseAuthException e){
-                                Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "이미 있는 이메일 입니다.", Toast.LENGTH_LONG).show();
                             }
                             catch (Exception e) {
                                 e.printStackTrace();
@@ -187,14 +181,37 @@ public class LogIn extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 로그인 성공
-                            Toast.makeText(LogIn.this, getString(R.string.success_signup), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogIn.this, getString(R.string.success_login), Toast.LENGTH_SHORT).show();
                             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                             FirebaseUser user = task.getResult().getUser();
                             User userModel = new User(user.getEmail());
                             databaseReference.child("users").child(user.getUid()).setValue(userModel);
+
+//                            Intent intent = new Intent(LogIn.this, MainActivity.class);
+//                            startActivity(intent);
+                            String email = user.getEmail();
+                            Intent intent = new Intent(LogIn.this, MainActivity.class);
+                            intent.putExtra("value",email);
+                            startActivity(intent);
+                            finish();
                         } else {
                             // 로그인 실패
-                            Toast.makeText(LogIn.this,getString(R.string.failed_signup),Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(LogIn.this,getString(R.string.failed_login),Toast.LENGTH_SHORT).show();
+                            try {
+                                throw task.getException();
+                            }
+                            catch (FirebaseAuthInvalidCredentialsException e) {
+                                Toast.makeText(getApplicationContext(), "비밀번호가 틀렸습니다.", Toast.LENGTH_LONG).show();
+                            }
+                            catch (FirebaseAuthEmailException e){
+                                Toast.makeText(getApplicationContext(), "이메일이 틀렸습니다.", Toast.LENGTH_LONG).show();
+                            }
+                            catch (FirebaseAuthException e){
+                                Toast.makeText(getApplicationContext(), "없는 이메일 입니다.", Toast.LENGTH_LONG).show();
+                            }
+                            catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
