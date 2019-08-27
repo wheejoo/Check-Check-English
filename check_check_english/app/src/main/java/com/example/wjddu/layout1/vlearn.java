@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,9 +57,10 @@ import java.util.Locale;
 public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     private TextToSpeech tts;
-    Button input, sambtn;
+    Button input, sambtn, back;
     public static Context c;
     TextView txt;
+    ProgressBar mProgCircle;
 
     String a = "hello";
 
@@ -79,6 +81,15 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
         input = findViewById(R.id.input);
         txt = findViewById(R.id.txt);
         sambtn = findViewById(R.id.sambtn);
+        back = findViewById(R.id.back);
+        mProgCircle = findViewById(R.id.progcircle);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
 
 
@@ -251,7 +262,9 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                 @Override
                 public void onEndOfSpeech() {
                     toast("음성 입력 종료");
+                    mProgCircle.setVisibility(View.VISIBLE);
                 }
+
 
                 @Override
                 public void onError(int error) {
@@ -401,6 +414,7 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            mProgCircle.setVisibility(View.INVISIBLE);
             txt.append("[병아리]" + result + "\n");//서버로 부터 받은 값을 출력해주는 부
             tts.speak(result,TextToSpeech.QUEUE_FLUSH, null);
 
