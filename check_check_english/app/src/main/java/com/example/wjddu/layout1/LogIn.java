@@ -150,17 +150,12 @@ public class LogIn extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 회원가입 성공
-                            //Toast.makeText(LogIn.this, getString(R.string.success_signup), Toast.LENGTH_SHORT).show();
-                            t.setText(getString(R.string.success_signup));
+                            Toast.makeText(LogIn.this, getString(R.string.success_signup), Toast.LENGTH_SHORT).show();
                             //Intent intent = new Intent(LogIn.this, MainActivity.class);
                             //startActivity(intent);
                         } else {
                             // 회원가입 실패
-                            //Toast.makeText(LogIn.this, getString(R.string.failed_signup), Toast.LENGTH_SHORT).show();
-                            //t.setText(getString(R.string.failed_signup));
-                            t.setText("onComplete: Failed=" + task.getException().getMessage()); //ADD THIS
-
-                            Toast.makeText(LogIn.this, getString(R.string.failed_signup),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogIn.this, getString(R.string.failed_signup), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -169,19 +164,19 @@ public class LogIn extends AppCompatActivity {
     // 로그인
     private void loginUser(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<com.google.firebase.auth.AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<com.google.firebase.auth.AuthResult> task) {
+                    public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 로그인 성공
-                            Toast.makeText(LogIn.this, R.string.success_login, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogIn.this, getString(R.string.success_signup), Toast.LENGTH_SHORT).show();
                             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                             FirebaseUser user = task.getResult().getUser();
                             User userModel = new User(user.getEmail());
                             databaseReference.child("users").child(user.getUid()).setValue(userModel);
                         } else {
                             // 로그인 실패
-                            Toast.makeText(LogIn.this,getString(R.string.failed_login),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogIn.this,getString(R.string.failed_signup),Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
