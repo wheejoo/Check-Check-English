@@ -28,6 +28,7 @@
         <activity android:name=".love" />
         <activity android:name=".fight" />
         <activity android:name=".vlearn" />
+        <activity android:name=".LogIn" />
     </application>
 
 </manifest>

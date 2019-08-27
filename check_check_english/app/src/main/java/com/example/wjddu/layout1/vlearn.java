@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -35,6 +36,18 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -42,14 +55,17 @@ import java.util.Locale;
 
 public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
-    TextToSpeech tts;
+    private TextToSpeech tts;
     Button input, sambtn;
     public static Context c;
     TextView txt;
 
+    String a = "hello";
 
-    YouTubePlayer.OnInitializedListener listener;
     String url;
+
+    Intent i;
+    SpeechRecognizer mRecognizer;
 
 
 
@@ -67,6 +83,9 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
 
 
 
+
+
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 5);
             toast("순순히 권한을 넘기지 않으면, 음성 인식 기능을 사용할 수 없다!");
@@ -77,10 +96,12 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                 inputVoice(txt);
             }
         });
+
+
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                tts.setLanguage(Locale.KOREAN);
+                tts.setLanguage(Locale.US);
             }
         });
 
@@ -205,7 +226,7 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
         try {
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, this.getPackageName());
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
             final SpeechRecognizer stt = SpeechRecognizer.createSpeechRecognizer(this);
             stt.setRecognitionListener(new RecognitionListener() {
                 @Override
@@ -243,8 +264,16 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                 public void onResults(Bundle results) {
                     ArrayList<String> result = (ArrayList<String>) results.get(SpeechRecognizer.RESULTS_RECOGNITION);
 
-                    txt.append("[나]" + result.get(0)+"\n");
-                    replyAnswer(result.get(0), txt);
+                    String[] rs = new String[result.size()];
+                    result.toArray(rs);
+                    //Toast.makeText(getApplicationContext(), rs[0], Toast.LENGTH_SHORT).show();
+
+                    a = rs[0];
+
+                    txt.append("[나]" + a +"\n");
+//                    replyAnswer(result.get(0), txt);
+                    new JSONTask().execute("https://chatbotmagic.glitch.me/chatbot");//AsyncTask 시작시킴
+
                     stt.destroy();
 
                 }
@@ -266,27 +295,27 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
     }
 
 
-    private void replyAnswer(String input, TextView txt){
-        try{
-            if(input.equals("안녕")){
-                txt.append("[병아리] 누구세요?\n");
-                tts.speak("누구세요?", TextToSpeech.QUEUE_ADD, null);
-            }
-            else if(input.equals("너는 누구니")){
-                txt.append("[병아리] 나는 짭스티라고 해.\n");
-                tts.speak("나는 짭스티라고 해.", TextToSpeech.QUEUE_ADD, null);
-            }
-            else if(input.equals("종료")){
-                finish();
-            }
-            else {
-                txt.append("[병아리] 뭐라는거야?\n");
-                tts.speak("뭐라는거야?", TextToSpeech.QUEUE_ADD, null);
-            }
-        } catch (Exception e) {
-            toast(e.toString());
-        }
-    }
+//    private void replyAnswer(String input, TextView txt){
+//        try{
+//            if(input.equals("안녕")){
+//                txt.append("[병아리] 누구세요?\n");
+//                tts.speak("누구세요?", TextToSpeech.QUEUE_ADD, null);
+//            }
+//            else if(input.equals("너는 누구니")){
+//                txt.append("[병아리] 나는 짭스티라고 해.\n");
+//                tts.speak("나는 짭스티라고 해.", TextToSpeech.QUEUE_ADD, null);
+//            }
+//            else if(input.equals("종료")){
+//                finish();
+//            }
+//            else {
+//                txt.append("[병아리] 뭐라는거야?\n");
+//                tts.speak("뭐라는거야?", TextToSpeech.QUEUE_ADD, null);
+//            }
+//        } catch (Exception e) {
+//            toast(e.toString());
+//        }
+//    }
 
     private void toast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
@@ -295,4 +324,86 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
 
 
 
+
+    public class JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+            try {
+                //JSONObject를 만들고 key value 형식으로 값을 저장해준다.
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.accumulate("uID", "androidTest");
+                jsonObject.accumulate("query", a);
+
+                HttpURLConnection con = null;
+                BufferedReader reader = null;
+
+                try{
+                    //URL url = new URL("");
+                    URL url = new URL(urls[0]);
+                    //연결을 함
+                    con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");//POST방식으로 보냄
+                    con.setRequestProperty("Cache-Control", "no-cache");//캐시 설정
+                    con.setRequestProperty("Content-Type", "application/json");//application JSON 형식으로 전송
+
+                    con.setRequestProperty("Accept", "text/html");//서버에 response 데이터를 html로 받음
+                    con.setDoOutput(true);//Outstream으로 post 데이터를 넘겨주겠다는 의미
+                    con.setDoInput(true);//Inputstream으로 서버로부터 응답을 받겠다는 의미
+                    con.connect();
+
+                    //서버로 보내기위해서 스트림 만듬
+                    OutputStream outStream = con.getOutputStream();
+                    //버퍼를 생성하고 넣음
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                    writer.close();//버퍼를 받아줌
+
+                    //서버로 부터 데이터를 받음
+                    InputStream stream = con.getInputStream();
+
+                    reader = new BufferedReader(new InputStreamReader(stream));
+
+                    StringBuffer buffer = new StringBuffer();
+
+                    String line = "";
+                    while((line = reader.readLine()) != null){
+                        buffer.append(line);
+                    }
+
+                    return buffer.toString();//서버로 부터 받은 값을 리턴해줌
+
+                } catch (MalformedURLException e){
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if(con != null){
+                        con.disconnect();
+                    }
+                    try {
+                        if(reader != null){
+                            reader.close();//버퍼를 닫아줌
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            txt.append("[병아리]" + result + "\n");//서버로 부터 받은 값을 출력해주는 부
+            tts.speak(result,TextToSpeech.QUEUE_FLUSH, null);
+
+        }
+    }
 }

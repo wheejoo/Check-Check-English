@@ -12,7 +12,7 @@ public class intro extends Activity {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Intent intent = new Intent(intro.this, MainActivity.class);
+            Intent intent = new Intent(intro.this, LogIn.class);
             startActivity(intent);
             finish();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
