@@ -231,9 +231,10 @@ public class fun extends AppCompatActivity {
 
                     UserData userdata = new UserData(email, getTime, mname);
 
-                    databaseReference.child("users").child(cu).push().setValue(userdata);
+                    databaseReference.child("users").push().setValue(userdata);
 
 
+//
 
                     Intent intent = new Intent(getApplicationContext(),vlearn.class);
                     intent.putExtra("value",uId[pos]);

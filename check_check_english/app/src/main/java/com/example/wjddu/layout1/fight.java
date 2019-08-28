@@ -230,7 +230,7 @@ public class fight extends AppCompatActivity {
 
                     UserData userdata = new UserData(email, getTime, mname);
 
-                    databaseReference.child("users").child(cu).push().setValue(userdata);
+                    databaseReference.child("users").push().setValue(userdata);
 
 
 

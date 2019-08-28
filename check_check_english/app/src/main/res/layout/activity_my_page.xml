@@ -4,13 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".myPage">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/user"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
         android:text=""
-        android:textSize="20dp"/>
+        android:textSize="20dp" />
+
+    <ListView
+        android:layout_width="282dp"
+        android:layout_height="557dp"
+        android:id="@+id/listviewmsg"/>
+
 
 </LinearLayout>

@@ -185,7 +185,7 @@ public class LogIn extends AppCompatActivity {
                             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                             FirebaseUser user = task.getResult().getUser();
                             User userModel = new User(user.getEmail());
-                            databaseReference.child("users").child("email").setValue(userModel);
+//                            databaseReference.child("users").child("email").setValue(userModel);
 
 //                            Intent intent = new Intent(LogIn.this, MainActivity.class);
 //                            startActivity(intent);
