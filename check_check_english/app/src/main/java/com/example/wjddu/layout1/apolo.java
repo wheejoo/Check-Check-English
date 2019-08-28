@@ -102,6 +102,7 @@ public class apolo extends AppCompatActivity {
         try{
             mThread.join();
 
+            //img.setImageBitmap(bitmap);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
