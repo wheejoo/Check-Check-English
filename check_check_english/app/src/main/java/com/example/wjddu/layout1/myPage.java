@@ -29,7 +29,7 @@ public class myPage extends AppCompatActivity {
 
     TextView user;
     GridView gv1;
-    GridView gv2;
+
 
     String[] date = {"2019-08-27","2019-28-27","2019-08-28"};  //DB에서 받아올 동영상의 시청 날짜
     String[] uId ={"https://www.youtube.com/watch?v=72v7c8mxBQQ",
@@ -45,7 +45,7 @@ public class myPage extends AppCompatActivity {
 
         user = findViewById(R.id.user);
         gv1 = findViewById(R.id.gv1);
-        //gv2 = findViewById(R.id.gv2);
+
 
         Thread mThread = new Thread(){
             @Override
@@ -84,17 +84,6 @@ public class myPage extends AppCompatActivity {
         setTitle("My Page");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        Intent intent = getIntent();
-//        String userEmail = intent.getStringExtra("email");
-//        String userNmae = userEmail.substring(0,userEmail.indexOf("@"));
-//        user.setText(userNmae + "님의 시청기록");
-
-//        MyImageGridAdapter iAdater = new MyImageGridAdapter(this);
-//        MyTextGridAdapter tAdater = new MyTextGridAdapter(this);
-//
-//        gv1.setAdapter(iAdater);
-//        gv2.setAdapter(tAdater);
-
         MyGridAdapter adapter = new  MyGridAdapter(this);
         gv1.setAdapter(adapter);
     }
@@ -108,62 +97,7 @@ public class myPage extends AppCompatActivity {
         return (super.onOptionsItemSelected(item));
     }
 
-//    public class MyImageGridAdapter extends BaseAdapter {
-//        Context context;
-//
-//        MyImageGridAdapter(Context c){context = c;};
-//
-//        public int getCount(){return uId.length;}
-//
-//        @Override
-//        public Object getItem(int i) {return null;}
-//
-//        @Override
-//        public long getItemId(int i) {return 0;}
-//
-//        @Override
-//        public View getView(int position, View view, ViewGroup viewGroup) {
-//            ImageView iView = new ImageView(context);
-//            iView.setPadding(5,50,5,50);
-//            iView.setImageBitmap(bitmap[position]);
-//
-//            final int pos = position;
-//            iView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(getApplicationContext(),vlearn.class);
-//                    intent.putExtra("value",uId[pos]);
-//                    startActivity(intent);
-//                }
-//            });
-//            return iView;
-//        }
-//    }
-//
-//    public class MyTextGridAdapter extends BaseAdapter {
-//        Context context;
-//
-//        MyTextGridAdapter(Context c){context = c;};
-//
-//        public int getCount(){return uId.length;}
-//
-//        @Override
-//        public Object getItem(int i) {return null;}
-//
-//        @Override
-//        public long getItemId(int i) {return 0;}
-//
-//        @Override
-//        public View getView(int position, View view, ViewGroup viewGroup) {
-//            TextView tView = new TextView(context);
-//            tView.setPadding(5,50,5,50);
-//            tView.setText(date[position]);
-//            tView.setTextSize(50);
-//            tView.setTextColor(Color.BLACK);
-//
-//            return tView;
-//        }
-//    }
+
 
     public class MyGridAdapter extends BaseAdapter{
         Context context;
@@ -180,25 +114,23 @@ public class myPage extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
- //           ImageView iView = new ImageView(context);
-//            iView.setPadding(5,50,5,50);
-//            iView.setImageBitmap(bitmap[position]);
+
 
             LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.HORIZONTAL);
             layout.setLayoutParams(new LinearLayout.LayoutParams(-2,-2));
+            layout.setPadding(30, 0, 0, 0);
 
             ImageView iView = new ImageView(context);
-            iView.setLayoutParams(new LinearLayout.LayoutParams(-2,-2));
+            iView.setLayoutParams(new LinearLayout.LayoutParams(400,300));
             iView.setImageBitmap(bitmap[i]);
-            iView.setPadding(5,5,5,5);
 
             TextView tView = new TextView(context);
-            tView.setLayoutParams(new LinearLayout.LayoutParams(-2,-2));
+            tView.setLayoutParams(new LinearLayout.LayoutParams(400,300));
             tView.setText(date[i]);
             tView.setGravity(Gravity.BOTTOM);
             tView.setTextSize(25);
-            tView.setPadding(5,350,5,5);
+            tView.setPadding(15,200,0,5);
 
 
             layout.addView(iView);
