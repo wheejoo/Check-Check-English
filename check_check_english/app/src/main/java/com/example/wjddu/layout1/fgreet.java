@@ -20,13 +20,19 @@ import android.widget.ImageView;
 import android.widget.VideoView;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class fgreet extends AppCompatActivity {
@@ -39,12 +45,23 @@ public class fgreet extends AppCompatActivity {
     URL[] url = new URL[uId.length];
     Bitmap[] bitmap = new Bitmap[uId.length];
 
+    String movieName = "";
+
+    long now = System.currentTimeMillis();
+    Date date = new Date(now);
+
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fun);
 
         gv = findViewById(R.id.gv);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         Thread mThread = new Thread(){
             @Override
@@ -99,6 +116,62 @@ public class fgreet extends AppCompatActivity {
         return (super.onOptionsItemSelected(item));
     }
 
+    public class UserData {
+        private String userEmail;
+        private String date;
+        private String moviename;
+
+
+        public UserData(String userEmail, String date, String moviename) {
+
+            this.userEmail = userEmail;
+            this.date  = date;
+            this.moviename = moviename;
+
+        }
+
+        public String getUserEmail() {
+
+            return userEmail;
+
+        }
+
+        public void setUserEmail(String userEmail) {
+
+            this.userEmail = userEmail;
+
+        }
+
+
+        public String getDate() {
+
+            return date;
+
+        }
+
+
+        public void setDate(String date) {
+
+            this.date = date;
+
+        }
+
+
+        public String getMoviename() {
+
+            return moviename;
+
+        }
+
+
+        public void setMoviename(String moviename) {
+
+            this.moviename = moviename;
+
+        }
+
+    }
+
 
     public class MyGridAdapter extends BaseAdapter{
         Context context;
@@ -127,6 +200,43 @@ public class fgreet extends AppCompatActivity {
 //
 //                    VideoView vi = video.findViewById(R.id.youtubeView);
 //                    vi.setVideoPath(uId[pos]);
+
+                    if(pos == 0)
+                    {
+                        movieName = "Frozen";
+                    }
+                    else if(pos == 1)
+                    {
+                        movieName = "About Time";
+                    }
+                    else if(pos == 2)
+                    {
+                        movieName = "Toy Story";
+                    }
+                    else if(pos == 3)
+                    {
+                        movieName = "Monsters, Inc";
+                    }
+//
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    String getTime = sdf.format(date);
+//
+//                    databaseReference.child("users").child("email").push().setValue(userEmail);
+//                    databaseReference.child("users").child("date").push().setValue(getTime);
+
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                    String cu = firebaseAuth.getUid();
+
+                    String email = user.getEmail();
+
+                    String mname = movieName;
+
+                    UserData userdata = new UserData(email, getTime, mname);
+
+                    databaseReference.child("users").child(cu).push().setValue(userdata);
+
+
 
 
                     Intent intent = new Intent(getApplicationContext(),vlearn.class);

@@ -1,5 +1,7 @@
 package com.example.wjddu.layout1;
 
+import android.service.autofill.UserData;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,8 +19,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +40,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.Executor;
 
 public class apolo extends AppCompatActivity {
     GridView gv;
@@ -35,6 +52,14 @@ public class apolo extends AppCompatActivity {
             "https://www.youtube.com/watch?v=TpLXayxZ98g"};
     URL[] url = new URL[uId.length];
     Bitmap[] bitmap = new Bitmap[uId.length];
+    String movieName = "";
+
+    long now = System.currentTimeMillis();
+    Date date = new Date(now);
+
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +67,9 @@ public class apolo extends AppCompatActivity {
         setContentView(R.layout.activity_fun);
 
         gv = findViewById(R.id.gv);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
 
         Thread mThread = new Thread(){
             @Override
@@ -96,6 +124,61 @@ public class apolo extends AppCompatActivity {
         return (super.onOptionsItemSelected(item));
     }
 
+    public class UserData {
+        private String userEmail;
+        private String date;
+        private String moviename;
+
+
+        public UserData(String userEmail, String date, String moviename) {
+
+            this.userEmail = userEmail;
+            this.date  = date;
+            this.moviename = moviename;
+
+        }
+
+        public String getUserEmail() {
+
+            return userEmail;
+
+        }
+
+        public void setUserEmail(String userEmail) {
+
+            this.userEmail = userEmail;
+
+        }
+
+
+        public String getDate() {
+
+            return date;
+
+        }
+
+
+        public void setDate(String date) {
+
+            this.date = date;
+
+        }
+
+
+        public String getMoviename() {
+
+            return moviename;
+
+        }
+
+
+        public void setMoviename(String moviename) {
+
+            this.moviename = moviename;
+
+        }
+
+    }
 
 
     public class MyGridAdapter extends BaseAdapter{
@@ -125,6 +208,41 @@ public class apolo extends AppCompatActivity {
 //
 //                    VideoView vi = video.findViewById(R.id.youtubeView);
 //                    vi.setVideoPath(uId[pos]);
+
+
+//                    Intent intent1 = getIntent();
+//                    String userEmail = intent1.getStringExtra("email");
+
+                    if(pos == 0)
+                    {
+                        movieName = "Adventure Time with Finn & Jake";
+                    }
+                    else if(pos == 1)
+                    {
+                        movieName = "Apology";
+                    }
+                    else if(pos == 2)
+                    {
+                        movieName = "Zootopia";
+                    }
+//
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    String getTime = sdf.format(date);
+//
+//                    databaseReference.child("users").child("email").push().setValue(userEmail);
+//                    databaseReference.child("users").child("date").push().setValue(getTime);
+
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                    String cu = firebaseAuth.getUid();
+
+                    String email = user.getEmail();
+
+                    String mname = movieName;
+
+                    UserData userdata = new UserData(email, getTime, mname);
+
+                    databaseReference.child("users").child(cu).push().setValue(userdata);
 
 
                     Intent intent = new Intent(getApplicationContext(),vlearn.class);
