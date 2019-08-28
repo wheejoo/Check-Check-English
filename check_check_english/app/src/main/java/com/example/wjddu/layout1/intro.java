@@ -6,13 +6,15 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.Locale;
+
 public class intro extends Activity {
     private Handler handler;
 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Intent intent = new Intent(intro.this, LogIn.class);
+            Intent intent = new Intent(intro.this, myPage.class);
             startActivity(intent);
             finish();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
