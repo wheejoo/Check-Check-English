@@ -136,7 +136,6 @@ public class apolo extends AppCompatActivity {
             this.userEmail = userEmail;
             this.date  = date;
             this.moviename = moviename;
-
         }
 
         public String getUserEmail() {

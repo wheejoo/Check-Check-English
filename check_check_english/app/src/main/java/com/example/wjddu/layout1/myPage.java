@@ -1,6 +1,7 @@
 package com.example.wjddu.layout1;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +49,8 @@ public class myPage extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        final String userEmail = intent.getStringExtra("email");
+//        final
+        String userEmail = intent.getStringExtra("email");
         user.setText(userEmail);
 
 
@@ -67,9 +69,10 @@ public class myPage extends AppCompatActivity {
 //
 
 //    데이터베이스 읽기 #3. ChildEventListener
-    mReference.addChildEventListener(new ChildEventListener() {
+        mReference.orderByChild("userEmail").equalTo(userEmail).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
 

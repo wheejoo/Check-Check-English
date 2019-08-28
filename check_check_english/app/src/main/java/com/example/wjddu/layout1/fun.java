@@ -223,7 +223,7 @@ public class fun extends AppCompatActivity {
 
                     FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                    String cu = firebaseAuth.getUid();
+//                    String cu = firebaseAuth.getUid();
 
                     String email = user.getEmail();
 
