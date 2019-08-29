@@ -1,18 +1,20 @@
 package com.example.wjddu.layout1;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+=======
+import android.provider.ContactsContract;
+>>>>>>> 8040aa085d1969dfe4bc984359a7cd2517bbfe62
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
+<<<<<<< HEAD
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -35,12 +37,29 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+=======
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.sql.Ref;
+>>>>>>> 8040aa085d1969dfe4bc984359a7cd2517bbfe62
 import java.util.ArrayList;
 import java.util.List;
 
 public class myPage extends AppCompatActivity {
 
     TextView user;
+<<<<<<< HEAD
     GridView gv1;
     private ArrayAdapter<String> adapter;
     List<Object> Array = new ArrayList<Object>();
@@ -67,6 +86,16 @@ public class myPage extends AppCompatActivity {
 //    Bitmap[] bitmap = new Bitmap[uId.length];
 //    URL[] url = new URL[uId.length];
 
+=======
+
+    private ListView listView;
+    private ArrayAdapter<String> adapter;
+    List<Object> Array = new ArrayList<Object>();
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReference;
+    private ChildEventListener mChild;
+>>>>>>> 8040aa085d1969dfe4bc984359a7cd2517bbfe62
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +103,6 @@ public class myPage extends AppCompatActivity {
         setContentView(R.layout.activity_my_page);
 
         user = findViewById(R.id.user);
-        gv1 = findViewById(R.id.gv1);
 
         Intent intent = getIntent();
         String userEmail = intent.getStringExtra("email");
@@ -146,6 +174,7 @@ public class myPage extends AppCompatActivity {
             }
         }
 
+<<<<<<< HEAD
         Thread mThread = new Thread(){
             @Override
             public void run() {
@@ -167,18 +196,21 @@ public class myPage extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+=======
+        setTitle("My Page");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+>>>>>>> 8040aa085d1969dfe4bc984359a7cd2517bbfe62
 
-            }
-        };
-        mThread.start();
+        Intent intent = getIntent();
+//        final
+        String userEmail = intent.getStringExtra("email");
+        user.setText(userEmail);
 
-        try{
-            mThread.join();
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // 1. 파이어베이스 연결 - DB Connection
+        mDatabase = FirebaseDatabase.getInstance();
 
+<<<<<<< HEAD
  */
 
         setTitle("My Page");
@@ -197,8 +229,20 @@ public class myPage extends AppCompatActivity {
         }
         return (super.onOptionsItemSelected(item));
     }
+=======
+        // 2. CRUD 작업의 기준이 되는 노드를 레퍼러느로 가져온다.
+        mReference = mDatabase.getReference("users");
 
 
+        // 4. 리스트뷰에 목록 세팅
+        listView = findViewById(R.id.listviewmsg);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
+        listView.setAdapter(adapter);
+>>>>>>> 8040aa085d1969dfe4bc984359a7cd2517bbfe62
+
+//
+
+<<<<<<< HEAD
 /*
     public class MyGridAdapter extends BaseAdapter{
         Context context;
@@ -209,13 +253,27 @@ public class myPage extends AppCompatActivity {
         };
 
         public int getCount() {return urId.size(); }
+=======
+//    데이터베이스 읽기 #3. ChildEventListener
+        mReference.orderByChild("userEmail").equalTo(userEmail).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-        @Override
-        public Object getItem(int i) {return null;}
 
-        @Override
-        public long getItemId(int i) {return 0;}
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
+                        String msg2 = snapshot.getValue().toString();
+//                        Array.add(msg2);
+                        adapter.add(msg2);
+>>>>>>> 8040aa085d1969dfe4bc984359a7cd2517bbfe62
+
+                }
+                adapter.notifyDataSetChanged();
+                listView.setSelection(adapter.getCount() - 1);
+
+            }
+
+<<<<<<< HEAD
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             LinearLayout layout = new LinearLayout(context);
@@ -236,10 +294,27 @@ public class myPage extends AppCompatActivity {
             tView.setText(date.get(urId.size() - (i + 1)));
             tView.setTextSize(20);
             tView.setPadding(5,200,5,5);
+=======
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            layout.addView(iView);
-            layout.addView(tView);
+            }
 
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+>>>>>>> 8040aa085d1969dfe4bc984359a7cd2517bbfe62
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+<<<<<<< HEAD
             final int pos = i;
             iView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -250,7 +325,19 @@ public class myPage extends AppCompatActivity {
                 }
             });
             return layout;
+=======
+            }
+        });
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+>>>>>>> 8040aa085d1969dfe4bc984359a7cd2517bbfe62
         }
+        return (super.onOptionsItemSelected(item));
     }
 
  */

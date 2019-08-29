@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.util.Locale;
-
 public class intro extends Activity {
     private Handler handler;
 
