@@ -102,6 +102,7 @@ public class apolo extends AppCompatActivity {
         try{
             mThread.join();
 
+            //img.setImageBitmap(bitmap);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -135,7 +136,6 @@ public class apolo extends AppCompatActivity {
             this.userEmail = userEmail;
             this.date  = date;
             this.moviename = moviename;
-
         }
 
         public String getUserEmail() {
@@ -234,7 +234,7 @@ public class apolo extends AppCompatActivity {
 
                     FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                    String cu = firebaseAuth.getUid();
+                    //String cu = firebaseAuth.getUid();
 
                     String email = user.getEmail();
 
@@ -242,7 +242,7 @@ public class apolo extends AppCompatActivity {
 
                     UserData userdata = new UserData(email, getTime, mname);
 
-                    databaseReference.child("users").child(cu).push().setValue(userdata);
+                    databaseReference.child("users").push().setValue(userdata);
 
 
                     Intent intent = new Intent(getApplicationContext(),vlearn.class);

@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:verticalSpacing="20dp"
-            android:numColumns="1" />
+            android:numColumns="3" />
     </ScrollView>
 
 </LinearLayout>

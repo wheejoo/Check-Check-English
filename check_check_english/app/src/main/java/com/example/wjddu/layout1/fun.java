@@ -223,7 +223,7 @@ public class fun extends AppCompatActivity {
 
                     FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                    String cu = firebaseAuth.getUid();
+//                    String cu = firebaseAuth.getUid();
 
                     String email = user.getEmail();
 
@@ -231,9 +231,10 @@ public class fun extends AppCompatActivity {
 
                     UserData userdata = new UserData(email, getTime, mname);
 
-                    databaseReference.child("users").child(cu).push().setValue(userdata);
+                    databaseReference.child("users").push().setValue(userdata);
 
 
+//
 
                     Intent intent = new Intent(getApplicationContext(),vlearn.class);
                     intent.putExtra("value",uId[pos]);
