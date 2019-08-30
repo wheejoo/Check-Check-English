@@ -138,7 +138,7 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                         AlertDialog.Builder dialog = new AlertDialog.Builder(vlearn.this);
                         dialog.setTitle("Example - First greeting")
                                 .setMessage("-  Oh My god!! I'm so happy to see you. \n" +
-                                        "-  I feel like I'm gonna get along with you.")
+                                        "-  I feel like I want to get along with you.")
                                 .setNegativeButton("종료", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -148,9 +148,9 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                         break;
 
 
-                    case "BgKh0WlLtS0":
-                    case "wvtA-8yDxrU":
-                    case "kRQcE30Jmew":
+                    case "bcdp0_59U50":
+                    case "gUT_G4Da1lA":
+                    case "4oN8SIdLLs0":
                         AlertDialog.Builder dialog2 = new AlertDialog.Builder(vlearn.this);
                         dialog2.setTitle("Example - Funny")
                                 .setMessage("-  Are you kidding me? \n" +
@@ -170,7 +170,7 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                         AlertDialog.Builder dialog3 = new AlertDialog.Builder(vlearn.this);
                         dialog3.setTitle("Example - Apologizing")
                                 .setMessage("-  I'll forgive you. \n" +
-                                        "-  If you're sorry to me, dance for me.")
+                                        "-  If you're sorry, dance for me.")
                                 .setNegativeButton("종료", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -186,7 +186,7 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                         AlertDialog.Builder dialog4 = new AlertDialog.Builder(vlearn.this);
                         dialog4.setTitle("Example - Fight")
                                 .setMessage("-  Take it easy \n" +
-                                        "-  Relax. I don't want to fight you")
+                                        "-  Calm down I don't want to fight with you")
                                 .setNegativeButton("종료", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -202,7 +202,7 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                         AlertDialog.Builder dialog5 = new AlertDialog.Builder(vlearn.this);
                         dialog5.setTitle("Example - Love Love Love")
                                 .setMessage("-  I'm glad to hear that from you \n" +
-                                        "-  You talk so pretty")
+                                        "-  I like your voice. you speak in a good mood.")
                                 .setNegativeButton("종료", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -279,12 +279,11 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
 
                     String[] rs = new String[result.size()];
                     result.toArray(rs);
-                    //Toast.makeText(getApplicationContext(), rs[0], Toast.LENGTH_SHORT).show();
 
                     a = rs[0];
+                    a = a.toLowerCase();
 
                     txt.append("[나]" + a +"\n");
-//                    replyAnswer(result.get(0), txt);
                     new JSONTask().execute("https://chatbotmagic.glitch.me/chatbot");//AsyncTask 시작시킴
 
                     stt.destroy();
@@ -308,27 +307,6 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
     }
 
 
-//    private void replyAnswer(String input, TextView txt){
-//        try{
-//            if(input.equals("안녕")){
-//                txt.append("[병아리] 누구세요?\n");
-//                tts.speak("누구세요?", TextToSpeech.QUEUE_ADD, null);
-//            }
-//            else if(input.equals("너는 누구니")){
-//                txt.append("[병아리] 나는 짭스티라고 해.\n");
-//                tts.speak("나는 짭스티라고 해.", TextToSpeech.QUEUE_ADD, null);
-//            }
-//            else if(input.equals("종료")){
-//                finish();
-//            }
-//            else {
-//                txt.append("[병아리] 뭐라는거야?\n");
-//                tts.speak("뭐라는거야?", TextToSpeech.QUEUE_ADD, null);
-//            }
-//        } catch (Exception e) {
-//            toast(e.toString());
-//        }
-//    }
 
     private void toast(String msg){
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
@@ -352,7 +330,6 @@ public class vlearn extends YouTubeBaseActivity implements YouTubePlayer.OnIniti
                 BufferedReader reader = null;
 
                 try{
-                    //URL url = new URL("");
                     URL url = new URL(urls[0]);
                     //연결을 함
                     con = (HttpURLConnection) url.openConnection();

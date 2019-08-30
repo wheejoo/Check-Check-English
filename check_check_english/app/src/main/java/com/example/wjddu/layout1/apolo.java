@@ -46,7 +46,6 @@ import java.util.concurrent.Executor;
 
 public class apolo extends AppCompatActivity {
     GridView gv;
-    //View video;
     String[] uId ={"https://www.youtube.com/watch?v=72v7c8mxBQQ",
             "https://www.youtube.com/watch?v=yIADPHu2QJE",
             "https://www.youtube.com/watch?v=TpLXayxZ98g"};
@@ -102,7 +101,6 @@ public class apolo extends AppCompatActivity {
         try{
             mThread.join();
 
-            //img.setImageBitmap(bitmap);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -204,14 +202,6 @@ public class apolo extends AppCompatActivity {
             iView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    video = View.inflate(MainActivity.this,R.layout.video,null);
-//
-//                    VideoView vi = video.findViewById(R.id.youtubeView);
-//                    vi.setVideoPath(uId[pos]);
-
-
-//                    Intent intent1 = getIntent();
-//                    String userEmail = intent1.getStringExtra("email");
 
                     if(pos == 0)
                     {
@@ -225,16 +215,11 @@ public class apolo extends AppCompatActivity {
                     {
                         movieName = "Zootopia";
                     }
-//
+
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     String getTime = sdf.format(date);
-//
-//                    databaseReference.child("users").child("email").push().setValue(userEmail);
-//                    databaseReference.child("users").child("date").push().setValue(getTime);
 
                     FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                    //String cu = firebaseAuth.getUid();
 
                     String email = user.getEmail();
 

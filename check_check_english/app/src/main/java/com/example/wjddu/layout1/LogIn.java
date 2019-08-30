@@ -90,26 +90,6 @@ public class LogIn extends AppCompatActivity {
             }
         });
     }
-//
-//    public void signUp(View view) {
-//        email = editTextEmail.getText().toString();
-//        password = editTextPassword.getText().toString();
-//
-//        if (isValidEmail() && isValidPasswd()) {
-//            createUser(email, password);
-//        }
-//    }
-
-
-
-//    public void signIn(View view) {
-//        email = editTextEmail.getText().toString();
-//        password = editTextPassword.getText().toString();
-//
-//        if (isValidEmail() && isValidPasswd()) {
-//            loginUser(email, password);
-//        }
-//    }
 
     // 이메일 유효성 검사
     private boolean isValidEmail() {
@@ -152,7 +132,6 @@ public class LogIn extends AppCompatActivity {
                             Toast.makeText(LogIn.this, getString(R.string.success_signup), Toast.LENGTH_SHORT).show();
                         } else {
                             // 회원가입 실패
-                            //Toast.makeText(LogIn.this, getString(R.string.failed_signup), Toast.LENGTH_SHORT).show();
                             try {
                                 throw task.getException();
                             }
@@ -185,18 +164,13 @@ public class LogIn extends AppCompatActivity {
                             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                             FirebaseUser user = task.getResult().getUser();
                             User userModel = new User(user.getEmail());
-//                            databaseReference.child("users").child("email").setValue(userModel);
-
-//                            Intent intent = new Intent(LogIn.this, MainActivity.class);
-//                            startActivity(intent);
-                            String email = user.getEmail();
+                           String email = user.getEmail();
                             Intent intent = new Intent(LogIn.this, MainActivity.class);
                             intent.putExtra("value",email);
                             startActivity(intent);
                             finish();
                         } else {
                             // 로그인 실패
-                            //Toast.makeText(LogIn.this,getString(R.string.failed_login),Toast.LENGTH_SHORT).show();
                             try {
                                 throw task.getException();
                             }

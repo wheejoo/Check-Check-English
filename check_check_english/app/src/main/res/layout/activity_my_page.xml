@@ -27,10 +27,6 @@
             android:layout_marginTop="8dp"/>
     </LinearLayout>
 
-<!--    <ListView-->
-<!--        android:layout_width="282dp"-->
-<!--        android:layout_height="557dp"-->
-<!--        android:id="@+id/listviewmsg"/>-->
 
     <TextView
         android:text="공부했던 기록"

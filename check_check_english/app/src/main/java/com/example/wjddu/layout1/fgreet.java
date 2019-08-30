@@ -37,7 +37,6 @@ import java.util.Date;
 
 public class fgreet extends AppCompatActivity {
     GridView gv;
-    //View video;
     String[] uId ={"https://www.youtube.com/watch?v=pBI2JVH8vbw",
             "https://www.youtube.com/watch?v=2jxR4eydqKI",
             "https://www.youtube.com/watch?v=APD3FQLiME0",
@@ -94,7 +93,6 @@ public class fgreet extends AppCompatActivity {
         try{
             mThread.join();
 
-            //img.setImageBitmap(bitmap);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -196,10 +194,6 @@ public class fgreet extends AppCompatActivity {
             iView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    video = View.inflate(MainActivity.this,R.layout.video,null);
-//
-//                    VideoView vi = video.findViewById(R.id.youtubeView);
-//                    vi.setVideoPath(uId[pos]);
 
                     if(pos == 0)
                     {
@@ -217,16 +211,11 @@ public class fgreet extends AppCompatActivity {
                     {
                         movieName = "Monsters, Inc";
                     }
-//
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     String getTime = sdf.format(date);
-//
-//                    databaseReference.child("users").child("email").push().setValue(userEmail);
-//                    databaseReference.child("users").child("date").push().setValue(getTime);
 
                     FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                    //String cu = firebaseAuth.getUid();
 
                     String email = user.getEmail();
 

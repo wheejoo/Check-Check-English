@@ -36,10 +36,9 @@ import java.util.Date;
 
 public class fun extends AppCompatActivity {
     GridView gv;
-    //View video;
-    String[] uId ={"https://www.youtube.com/watch?v=BgKh0WlLtS0",
-            "https://www.youtube.com/watch?v=wvtA-8yDxrU",
-            "https://www.youtube.com/watch?v=kRQcE30Jmew"};
+    String[] uId ={"https://www.youtube.com/watch?v=bcdp0_59U50",
+            "https://www.youtube.com/watch?v=gUT_G4Da1lA",
+            "https://www.youtube.com/watch?v=4oN8SIdLLs0"};
     URL[] url = new URL[uId.length];
     Bitmap[] bitmap = new Bitmap[uId.length];
 
@@ -92,7 +91,6 @@ public class fun extends AppCompatActivity {
         try{
             mThread.join();
 
-            //img.setImageBitmap(bitmap);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -197,10 +195,6 @@ public class fun extends AppCompatActivity {
             iView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    video = View.inflate(MainActivity.this,R.layout.video,null);
-//
-//                    VideoView vi = video.findViewById(R.id.youtubeView);
-//                    vi.setVideoPath(uId[pos]);
 
                     if(pos == 0)
                     {
@@ -214,16 +208,11 @@ public class fun extends AppCompatActivity {
                     {
                         movieName = "Wreck-It Ralph";
                     }
-//
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     String getTime = sdf.format(date);
-//
-//                    databaseReference.child("users").child("email").push().setValue(userEmail);
-//                    databaseReference.child("users").child("date").push().setValue(getTime);
 
                     FirebaseUser user = firebaseAuth.getCurrentUser();
 
-//                    String cu = firebaseAuth.getUid();
 
                     String email = user.getEmail();
 
@@ -234,7 +223,6 @@ public class fun extends AppCompatActivity {
                     databaseReference.child("users").push().setValue(userdata);
 
 
-//
 
                     Intent intent = new Intent(getApplicationContext(),vlearn.class);
                     intent.putExtra("value",uId[pos]);
